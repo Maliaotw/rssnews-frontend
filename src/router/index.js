@@ -62,6 +62,11 @@ export const constantRoutes = [
                 component: () => import('@/views/index/news')
             },
             {
+                path: 'source',
+                name: 'source',
+                component: () => import('@/views/index/source')
+            },
+            {
                 path: 'subscription',
                 name: 'subscription',
                 component: () => import('@/views/index/subscription')

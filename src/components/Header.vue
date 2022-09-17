@@ -29,7 +29,7 @@
           router
           :default-active="activeTag">
         <el-menu-item index="/home">新聞列表</el-menu-item>
-        <el-menu-item index="/subscription" v-if="username">我的訂閱</el-menu-item>
+        <el-menu-item index="/source">來源列表</el-menu-item>
         <el-menu-item index="/settings" v-if="username">個人設定</el-menu-item>
       </el-menu>
 
@@ -52,8 +52,8 @@ export default {
   computed: {},
   methods: {
     logout() {
-      console.log('logout')
-      console.log(this.$route.path)
+      // console.log('logout')
+      // console.log(this.$route.path)
       VueCookie.delete('csrftoken')
       VueCookie.delete('username')
       this.$router.push({name: 'login'})
