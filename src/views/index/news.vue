@@ -68,9 +68,10 @@
             lazy
         />
       </el-col>
+
       <el-col :span="18" class="pl-2">
         <h3><a :href="o.url">{{ o.name }}</a></h3>
-        <p>{{ o.source }} {{ o.publish }}</p>
+        <p>{{ o.source }} {{ o.published_parsed }}</p>
         <span>{{ o.content }}</span>
       </el-col>
 
@@ -94,7 +95,7 @@
 </template>
 
 <script>
-import {getHealthz, getNews, getNewsSelects} from '@/api/common'
+import {getNews, getNewsSelects} from '@/api/common'
 
 export default {
   name: "rss",
@@ -115,7 +116,7 @@ export default {
   },
 
   mounted() {
-    getHealthz()
+
 
   },
   created() {
@@ -161,14 +162,14 @@ export default {
     },
     // 請求News
     getNewss(p, size, params) {
-      if (p === '1') {
-        p = 0
-      } else {
-        p = p - 1
-      }
-      const page = p * this.pageSize
+      // if (p === '1') {
+      //   p = 0
+      // } else {
+      //   p = p - 1
+      // }
+      // const page = p * this.pageSize
 
-      getNews(page, size, params)
+      getNews(p, size, params)
           .then((res) => {
             console.log(res)
             this.obj_list = res.results

@@ -10,7 +10,7 @@ export function getHealthz() {
 
 export function getNews(page,size,params) {
     return request({
-        url: `/api/v1/news?offset=${page}&limit=${size}`,
+        url: `/api/v1/news?page=${page}&page_size=${size}`,
         method: 'get',
         params
     })
@@ -24,6 +24,16 @@ export function getNewsSelects(params) {
     })
 }
 
+export function getSourceSelects(params) {
+    return request({
+        url: `/api/v1/source/selects/`,
+        method: 'get',
+        params
+    })
+}
+
+
+
 
 
 export function getCategory() {
@@ -33,22 +43,80 @@ export function getCategory() {
     })
 }
 
-export function getSource() {
+export function getSource(page,size,params) {
+    return request({
+        url: `/api/v1/source/?page=${page}&page_size=${size}`,
+        method: 'get',
+        params
+    })
+}
+
+export function getSourceTree() {
     return request({
         url: '/api/v1/source/tree',
         method: 'get'
     })
 }
 
-export function addCategory(data) {
+export function checkSource(url) {
     return request({
-        url: '/api/v1/source/create',
+        url: `/api/v1/source/check_source/`,
+        method: 'post',
+        data: {
+            "url": url
+        }
+    })
+}
+
+
+export function SourceBatchEdit(data) {
+    return request({
+        url: '/api/v1/source/batch_edit/',
         method: 'post',
         data: data
     })
 }
 
 
+
+export function addCategory(data) {
+    return request({
+        url: '/api/v1/source/',
+        method: 'post',
+        data: data
+    })
+}
+
+export function editCategory(id,data) {
+    return request({
+        url: `/api/v1/source/${id}/`,
+        method: 'put',
+        data: data
+    })
+}
+
+export function detailCategory(id) {
+    return request({
+        url: `/api/v1/source/${id}`,
+        method: 'get',
+    })
+}
+
+export function sourceBatchEnable(data) {
+    return request({
+        url: '/api/v1/source/batch_enable/',
+        method: 'post',
+        data: data
+    })
+}
+
+export function sourceBatchDelete(data) {
+    return request({
+        url: '/api/v1/source/batch_deleted/',
+        method: 'post',
+        data: data
+    })
+}
 export function updateUserProfileSource(data) {
     return request({
         url: '/api/v1/userprofile/source/',
@@ -94,3 +162,4 @@ export function updateResetTelegram(data) {
         data: data
     })
 }
+

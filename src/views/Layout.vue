@@ -7,7 +7,7 @@
       <router-view/>
     </el-main>
 
-    <Footer/>
+    <Footer class="mt-2"> </Footer>
 
   </div>
 
