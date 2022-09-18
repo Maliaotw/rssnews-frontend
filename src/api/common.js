@@ -77,6 +77,14 @@ export function SourceBatchEdit(data) {
     })
 }
 
+export function SourceBatchDelete(data) {
+    return request({
+        url: '/api/v1/source/batch_deleted/',
+        method: 'post',
+        data: data
+    })
+}
+
 
 
 export function addCategory(data) {

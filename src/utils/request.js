@@ -72,7 +72,10 @@ function ifUnauthorized({response, error}) {
 
 function ifBadRequest({response, error}) {
     if (response.status === 400) {
-        error.message = "请求错误，请检查填写内容"
+        // console.log(error)
+        // console.log(response.request.response)
+        // error.message = "请求错误，请检查填写内容"
+        error.message = response.request.response;
     }
 }
 
