@@ -134,12 +134,16 @@ export default {
     handleSourceSubmit() {
       this.filterform.source = ''
 
-      getNewsSelects({category:this.filterform.category})
-          .then((res) => {
-            this.source = res
-          })
-
+      if (this.filterform.category){
+        getNewsSelects({category:this.filterform.category})
+            .then((res) => {
+              this.source = res
+            })
+      }else {
+        this.source = ''
+      }
       this.getNewss(this.page, this.pageSize, this.filterform)
+
 
     },
 
@@ -171,7 +175,7 @@ export default {
 
       getNews(p, size, params)
           .then((res) => {
-            console.log(res)
+            // console.log(res)
             this.obj_list = res.results
             this.total = res.count
 

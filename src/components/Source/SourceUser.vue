@@ -14,6 +14,7 @@
                      size="mini"
                      style="width: 20%"
                      @change="handleFilterSubmit"
+                     placeholder=""
           >
             <el-option key="" label="----" value=""/>
             <el-option
@@ -31,6 +32,7 @@
                      size="mini"
                      style="width: 20%"
                      @change="handleFilterSubmit"
+                     placeholder=""
           >
             <el-option key="" label="----" value=""/>
             <el-option
@@ -50,6 +52,7 @@
                      size="mini"
                      style="width: 20%"
                      @change="handleFilterSubmit"
+                     placeholder=""
           >
             <el-option key="" label="----" value=""/>
             <el-option
@@ -112,7 +115,8 @@
 
 
       <el-table-column
-          label="是否訂閱"
+          label="訂閱"
+          width="60%"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.is_subscription }}</span>
@@ -120,7 +124,8 @@
       </el-table-column>
 
       <el-table-column
-          label="啟用狀態"
+          label="啟用"
+          width="60%"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.enable }}</span>
@@ -137,11 +142,21 @@
               size="mini"
               @click="handleEdit(scope.$index, scope.row)">Edit
           </el-button>
-          <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">Delete
-          </el-button>
+          <el-popconfirm
+              confirm-button-text='是'
+              cancel-button-text='否'
+              icon="el-icon-info"
+              icon-color="red"
+              title="确定删除吗？"
+              @onConfirm="handleDelete(scope.$index, scope.row)"
+          >
+            <el-button
+                slot="reference"
+                size="mini"
+                type="danger"
+
+            >删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
 
@@ -254,8 +269,15 @@
 
 <script>
 import {
-  updateUserProfileSource,editCategory, addCategory, getSource,
-  checkSource, getNewsSelects, getSourceSelects,detailCategory, sourceBatchDelete, sourceBatchEnable,SourceBatchEdit
+  editCategory,
+  addCategory,
+  getSource,
+  checkSource,
+  getSourceSelects,
+  detailCategory,
+  sourceBatchEnable,
+  SourceBatchEdit,
+  SourceBatchDelete
 } from '@/api/common'
 import store from "@/store";
 
@@ -321,9 +343,10 @@ export default {
   methods: {
     // 增加
     add() {
-      this.dialogTitle = '增加';
+      this.dialogTitle = '增加來源';
       this.form = {};
       this.dialogFormVisible = true;
+      this.testlog = "";
     },
 
     //batch_enable
@@ -336,14 +359,15 @@ export default {
             this.$refs.mytable.clearSelection()
             this.getSources(this.page, this.pageSize, this.filterform)
           })
-
-
     },
 
     //batch_delete
     batch_delete(){
-
-      this.getSources(this.page, this.pageSize, this.filterform)
+      SourceBatchDelete({"ids":this.select_list})
+          .then((res) => {
+            this.$notify.success(res.message)
+            this.getSources(this.page, this.pageSize, this.filterform)
+          })
     },
 
     // 編輯
@@ -355,6 +379,17 @@ export default {
           })
 
       this.dialogFormVisible = true;
+    },
+
+    // 刪除
+    handleDelete(index, row){
+      console.log("刪除handleDelete");
+      let batchform = {"ids": [row.id]};
+      SourceBatchDelete(batchform)
+          .then((res) => {
+            this.$notify.success(res.message)
+            this.getSources(this.page, this.pageSize, this.filterform)
+          })
     },
 
     // 提交搜索
@@ -397,7 +432,7 @@ export default {
           // console.log(this.form)
           editCategory(this.form.id,this.form)
               .then((res) => {
-                console.log('成功');
+                // console.log('成功');
                 this.$notify({
                   title: '成功',
                   message: '更新成功',
@@ -411,8 +446,8 @@ export default {
             return false;
           }
         });
-
-        this.iconFormVisible = false;
+        this.dialogFormVisible = false;
+        // this.iconFormVisible = false;
         return;
       }
 
@@ -428,8 +463,11 @@ export default {
                   message: '新增成功',
                   type: 'success'
                 });
+                this.getSources(this.page, this.pageSize, this.filterform)
+                this.dialogFormVisible = false;
               })
-          this.getSources(this.page, this.pageSize, this.filterform)
+
+
 
         } else {
           console.log('error submit!!');
@@ -450,6 +488,7 @@ export default {
                 this.getSources(this.page, this.pageSize, this.filterform)
                 this.dialogFormBatchEditVisible = false;
               })
+
 
         } else {
           console.log('error submit!!');
