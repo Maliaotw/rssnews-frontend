@@ -12,8 +12,14 @@ export function getUsernameCookie() {
   return VueCookie.get('username')
 }
 
+export function getSuperuserCookie() {
+  const is_superuser = VueCookie.get('is_superuser');
+  return  is_superuser === 'true'
+}
+
 export function getCurrentRoleFromCookie() {
   const role = VueCookie.get(CURRENT_ROLE_KEY)
+
   if (role) {
     return parseInt(role) || null
   }

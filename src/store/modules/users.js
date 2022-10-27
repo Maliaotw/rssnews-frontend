@@ -5,7 +5,8 @@ import {
     saveCurrentOrgToCookie,
     getCurrentRoleFromCookie,
     saveCurrentRoleToCookie,
-    getUsernameCookie
+    getUsernameCookie,
+    getSuperuserCookie
 } from '@/utils/auth'
 import {resetRouter} from '@/router'
 import rolec from '@/utils/role'
@@ -14,13 +15,14 @@ const getDefaultState = () => {
     return {
         token: getTokenFromCookie(),
         username: getUsernameCookie(),
-        currentOrg: getCurrentOrgFromCookie(),
-        currentRole: getCurrentRoleFromCookie(),
-        profile: {},
-        roles: {},
-        orgs: [],
-        perms: 0b00000000,
-        MFAVerifyAt: null
+        is_superuser: getSuperuserCookie(),
+        // currentOrg: getCurrentOrgFromCookie(),
+        // currentRole: getCurrentRoleFromCookie(),
+        // profile: {},
+        // roles: {},
+        // orgs: [],
+        // perms: 0b00000000,
+        // MFAVerifyAt: null
     }
 }
 

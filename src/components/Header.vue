@@ -56,6 +56,7 @@ export default {
       // console.log(this.$route.path)
       VueCookie.delete('csrftoken')
       VueCookie.delete('username')
+      VueCookie.delete('is_superuser')
       this.$router.push({name: 'login'})
       window.location.reload()
     },

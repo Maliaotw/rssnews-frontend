@@ -79,6 +79,7 @@
                           console.log(result)
                           VueCookie.set('csrftoken', result.token, 14)
                           VueCookie.set('username', result.username, 14)
+                          VueCookie.set('is_superuser', result.is_superuser, 14)
                           self.reloadPage()
                     })
             }

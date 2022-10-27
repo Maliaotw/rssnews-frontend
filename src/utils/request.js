@@ -3,6 +3,7 @@ import axios from 'axios'
 import {Message, MessageBox} from 'element-ui'
 import store from '@/store'
 import VueCookie from 'vue-cookie'
+import app from '../main'
 
 // create an axios instance
 const service = axios.create({
@@ -56,6 +57,7 @@ function ifUnauthorized({response, error}) {
         // VueCookie.delete('csrftoken')
         VueCookie.set('csrftoken',"","-1")
         VueCookie.set('username',"","-1")
+        VueCookie.set('is_superuser',"","-1")
         // document.cookie = ""
         const title = "提示"
         const msg = "账号已退出，请重新登录"
@@ -109,6 +111,14 @@ service.interceptors.response.use(
     response => {
         // NProgress.done()
         const res = response.data
+
+        if (res.code === 100){
+            app.$notify.warning({
+                title: '错误',
+                message: res.message
+            });
+
+        }
 
         if (response.config.raw === 1) {
             return response

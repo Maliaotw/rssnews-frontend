@@ -42,19 +42,12 @@ Vue.prototype.$axios = service
 // 注册全局事件总线
 Vue.prototype.$eventBus = new Vue()
 
-// var app = new Vue({
-//   router,
-//   store,
-//   render: h => h(App)
-// }).$mount('#app')
-//
-// export default app
 
-
-new Vue({
+var app = new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App)
 })
 
+export default app
