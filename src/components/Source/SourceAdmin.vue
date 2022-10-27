@@ -67,13 +67,13 @@
         </el-form>
       </el-col>
 
-
       <el-col :span="24" class="mt-3">
 
 
-        <!--                <el-button size="small" type="info" @click="dialogVisible = true">ADD</el-button>-->
-        <el-button class="ml-2" @click="add" type="info" size="mini">ADD</el-button>
+        <el-button class="ml-2" @click="add" type="info" size="mini">新增</el-button>
         <el-button class="ml-2" @click="dialogFormBatchEditVisible=true" type="info" size="mini">批量編輯</el-button>
+        <el-button class="ml-2" @click="batch_delete" type="info" size="mini">批量刪除</el-button>
+
       </el-col>
 
     </el-row>
@@ -91,12 +91,11 @@
       <el-table-column
           type="selection"
           tooltip-effect="dark"
-
       >
       </el-table-column>
 
 
-      <el-table-column label="分類  ">
+      <el-table-column label="分類">
         <template slot-scope="scope">
           <span>{{ scope.row.category }}</span>
         </template>
@@ -140,7 +139,21 @@
               size="mini"
               @click="handleEdit(scope.$index, scope.row)">編輯
           </el-button>
+          <el-popconfirm
+              confirm-button-text='是'
+              cancel-button-text='否'
+              icon="el-icon-info"
+              icon-color="red"
+              title="确定删除吗？"
+              @onConfirm="handleDelete(scope.$index, scope.row)"
+          >
+            <el-button
+                slot="reference"
+                size="mini"
+                type="danger"
 
+            >删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
 
@@ -194,11 +207,7 @@
 
       <div>
         <span>測試結果</span>
-        <div>
-        <p v-for="value in this.testlog">
-          {{ value }}
-        </p>
-        </div>
+        <span >{{this.testlog}}</span>
       </div>
 
       <div slot="footer" class="dialog-footer center">
@@ -219,7 +228,7 @@
       <el-form :model="batchform" ref="batchform">
 
         <el-form-item label="字段" :label-width="formLabelWidth">
-          <el-select v-model="batchform.field" placeholder="" :style="{width:'100%'}">
+          <el-select v-model="batchform.field" placeholder="请选择" :style="{width:'100%'}">
             <el-option
                 v-for="item in options1"
                 :key="item.value"
@@ -271,7 +280,7 @@ import store from "@/store";
 
 
 export default {
-  name: "SourceUser",
+  name: "SourceAdmin",
   data() {
     return {
       data: [],
@@ -297,7 +306,7 @@ export default {
       enable:[],
       subscription:[],
       select_list:[],
-      testlog: [],
+      testlog: "",
       options1: [],
       options2: [
         {
@@ -352,7 +361,6 @@ export default {
     // 編輯
     handleEdit(index, row) {
       this.dialogTitle = '編輯';
-      this.testlog = []
       detailCategory(row.id)
           .then((res) => {
             this.form = res;
@@ -400,17 +408,12 @@ export default {
       // console.log(url)
       checkSource(url)
         .then((res)=>{
-          this.testlog = res.result
-            // for (let i = 0; i < res.result.length; i++){
-            //   console.log( res.result[i] )
-            //   this.testlog += "<span>" + res.result[i] + "</span>"
-          // }
+           this.testlog = res.result
         })
 
     },
     submitForm(formName) {
       if (this.dialogTitle === '編輯') {
-        this.testlog = []
         this.$refs[formName].validate((valid) => {
         if (valid) {
           // console.log('submit')

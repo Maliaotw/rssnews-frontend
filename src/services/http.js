@@ -51,6 +51,7 @@ master.interceptors.response.use(
             });
 
             return Promise.reject(error)
+
         } else if (error.response.status >= 500) {
             app.$Progress.fail()
             app.$notify.error({

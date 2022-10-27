@@ -1,5 +1,6 @@
 <template>
-  <SourceUser v-if="username"></SourceUser>
+  <SourceAdmin v-if="is_superuser"></SourceAdmin>
+  <SourceUser v-else-if="username"></SourceUser>
   <SourceGuest v-else></SourceGuest>
 </template>
 
@@ -7,6 +8,7 @@
 
 import SourceGuest from "@/components/Source/SourceGuest";
 import SourceUser from "@/components/Source/SourceUser";
+import SourceAdmin from "@/components/Source/SourceAdmin";
 import store from "@/store";
 
 export default {
@@ -18,7 +20,8 @@ export default {
   },
   components: {
     SourceGuest,
-    SourceUser
+    SourceUser,
+    SourceAdmin
   },
   mounted() {
 
@@ -26,6 +29,7 @@ export default {
   },
   created() {
     this.username = store.getters.username
+    this.is_superuser = store.getters.is_superuser
   },
   methods: {
 

@@ -3,6 +3,7 @@ const getters = {
   // device: state => state.app.device,
   token: state => state.users.token,
   username: state => state.users.username,
+  is_superuser: state => state.users.is_superuser,
   // currentOrg: state => state.users.currentOrg,
   // currentRole: state => state.users.currentRole,
   // userAdminOrgList: state => state.users.orgs,
